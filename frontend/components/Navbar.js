@@ -14,7 +14,7 @@ export default function Navbar() {
         <Link href="/" className={styles.logo}>
           <span className={styles.logoIcon}>◈</span>
           <span className={styles.logoText}>
-            Stable<span className={styles.logoAccent}>Escrow</span>
+            Aegis<span className={styles.logoAccent}>Protocol</span>
             <span className={styles.logoBadge}>UAE</span>
           </span>
         </Link>
