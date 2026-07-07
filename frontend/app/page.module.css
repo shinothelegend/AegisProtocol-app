@@ -1,0 +1,220 @@
+/* ── Hero ─────────────────────────────────────────────────── */
+.main { min-height: 100vh; position: relative; z-index: 1; }
+
+.hero {
+  padding: 90px 0 80px;
+  text-align: center;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #10B981;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+  animation: fade-in 0.6s ease;
+}
+
+.heroTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: #F0F2FA;
+  animation: fade-up 0.6s ease 0.1s both;
+}
+
+.heroGold {
+  background: linear-gradient(135deg, #C9A84C, #E2C46E, #A8832A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSub {
+  max-width: 580px;
+  margin: 0 auto 36px;
+  font-size: 1.05rem;
+  color: #8B9DC3;
+  line-height: 1.7;
+  animation: fade-up 0.6s ease 0.2s both;
+}
+
+.heroCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  animation: fade-up 0.6s ease 0.3s both;
+}
+
+.heroHint {
+  font-size: 0.82rem;
+  color: #4A5A80;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Contract pill */
+.contractPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  font-size: 0.83rem;
+  color: #8B9DC3;
+  text-decoration: none;
+  transition: all 0.25s;
+  animation: fade-up 0.6s ease 0.4s both;
+}
+.contractPill:hover {
+  border-color: rgba(201,168,76,0.4);
+  color: #C9A84C;
+  background: rgba(201,168,76,0.06);
+}
+.pillIcon  { color: #C9A84C; font-size: 1rem; }
+.pillLabel { font-weight: 600; color: #8B9DC3; }
+.pillAddr  { font-family: monospace; font-size: 0.85em; color: #4F8EF7; }
+.pillNetwork {
+  padding: 2px 8px;
+  background: rgba(79,142,247,0.12);
+  border: 1px solid rgba(79,142,247,0.25);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #4F8EF7;
+  letter-spacing: 0.05em;
+}
+.pillLink { color: #4A5A80; }
+
+/* ── Stats ─────────────────────────────────────────────────── */
+.statsSection { padding: 0 0 72px; }
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.statIcon {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+}
+.icon_gold   { filter: drop-shadow(0 0 12px rgba(201,168,76,0.5));   }
+.icon_blue   { filter: drop-shadow(0 0 12px rgba(79,142,247,0.5));   }
+.icon_green  { filter: drop-shadow(0 0 12px rgba(16,185,129,0.5));   }
+.icon_purple { filter: drop-shadow(0 0 12px rgba(139,92,246,0.5));   }
+
+.statValue {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #F0F2FA;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.statLabel { font-size: 0.8rem; font-weight: 600; color: #8B9DC3; text-transform: uppercase; letter-spacing: 0.06em; }
+.statSub   { font-size: 0.75rem; color: #4A5A80; margin-top: 4px; font-family: monospace; }
+
+/* ── How It Works ───────────────────────────────────────────── */
+.howSection  { padding: 72px 0; }
+.sectionHeader { text-align: center; margin-bottom: 52px; }
+.sectionTitle { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; color: #F0F2FA; margin-bottom: 10px; }
+.sectionSub   { color: #8B9DC3; font-size: 1rem; }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+/* Connecting line */
+.steps::before {
+  content: "";
+  position: absolute;
+  top: 48px;
+  left: calc(16.66% + 12px);
+  right: calc(16.66% + 12px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), rgba(201,168,76,0.3), transparent);
+  pointer-events: none;
+}
+
+.step {
+  padding: 32px 28px;
+  text-align: center;
+  position: relative;
+}
+.stepNum {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #C9A84C;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.stepIcon  { font-size: 2.4rem; margin-bottom: 16px; }
+.stepTitle { font-size: 1rem; font-weight: 700; color: #F0F2FA; margin-bottom: 10px; }
+.stepDesc  { font-size: 0.875rem; color: #8B9DC3; line-height: 1.65; }
+
+/* ── Features ───────────────────────────────────────────────── */
+.featuresSection { padding: 72px 0; }
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.featureCard {
+  padding: 28px 24px;
+}
+.featureIcon  { font-size: 2rem; margin-bottom: 14px; }
+.featureTitle { font-size: 1rem; font-weight: 700; color: #F0F2FA; margin-bottom: 8px; }
+.featureDesc  { font-size: 0.875rem; color: #8B9DC3; line-height: 1.65; }
+
+/* ── CTA Band ───────────────────────────────────────────────── */
+.ctaBand {
+  padding: 80px 0;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, rgba(79,142,247,0.04) 100%);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.ctaTitle   { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; color: #F0F2FA; margin-bottom: 12px; }
+.ctaSub     { color: #8B9DC3; font-size: 1rem; margin-bottom: 36px; }
+.ctaButtons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .statsGrid    { grid-template-columns: repeat(2, 1fr); }
+  .featuresGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .steps        { grid-template-columns: 1fr; }
+  .steps::before{ display: none; }
+  .statsGrid    { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .featuresGrid { grid-template-columns: 1fr; }
+  .hero         { padding: 60px 0 52px; }
+}

@@ -1,0 +1,89 @@
+.main { min-height: 100vh; padding: 60px 0 80px; position: relative; z-index: 1; }
+
+.header { margin-bottom: 36px; }
+.back   { font-size: 0.85rem; color: #8B9DC3; text-decoration: none; display: inline-block; margin-bottom: 20px; transition: color 0.2s; }
+.back:hover { color: #C9A84C; }
+.headerRow { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.title    { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: #F0F2FA; margin-bottom: 6px; }
+.subtitle { font-size: 0.9rem; color: #8B9DC3; }
+
+/* Stats bar */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.viewContract { font-size: 0.82rem; color: #4F8EF7; text-decoration: none; transition: opacity 0.2s; }
+.viewContract:hover { opacity: 0.75; }
+
+/* List */
+.list { display: flex; flex-direction: column; gap: 12px; }
+
+/* Row */
+.row {
+  display: grid;
+  grid-template-columns: 64px 130px 1fr 180px 160px 32px;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.row:hover { border-color: rgba(201,168,76,0.3); }
+
+/* ID */
+.rowId { display: flex; flex-direction: column; align-items: center; }
+.idLabel { font-size: 0.68rem; font-weight: 600; color: #4A5A80; text-transform: uppercase; letter-spacing: 0.08em; }
+.idVal   { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: #C9A84C; line-height: 1; }
+
+/* Amount */
+.rowAmnt { display: flex; flex-direction: column; }
+.amnt     { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: #F0F2FA; line-height: 1; }
+.amntUnit { font-size: 0.75rem; font-weight: 600; color: #8B9DC3; letter-spacing: 0.06em; }
+
+/* Parties */
+.rowParties { display: flex; align-items: center; gap: 12px; font-size: 0.82rem; color: #8B9DC3; }
+.party { display: flex; flex-direction: column; gap: 3px; }
+.partyLabel { font-size: 0.68rem; font-weight: 600; color: #4A5A80; text-transform: uppercase; letter-spacing: 0.07em; }
+.arrow { color: #4A5A80; font-size: 1rem; }
+
+/* Deadline */
+.rowDeadline { display: flex; flex-direction: column; gap: 3px; font-size: 0.82rem; color: #8B9DC3; }
+
+/* Status */
+.rowStatus { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+
+/* Arrow */
+.rowArrow { color: #4A5A80; font-size: 1rem; text-align: right; }
+
+/* Skeleton */
+.skeletonLine { height: 60px; border-radius: 12px; width: 100%; }
+
+/* States */
+.loading, .empty, .connectPrompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 24px;
+  text-align: center;
+  color: #8B9DC3;
+}
+.emptyIcon, .connectIcon { font-size: 3rem; margin-bottom: 8px; }
+.empty h2, .connectPrompt h2 { font-size: 1.3rem; color: #F0F2FA; }
+.empty p, .connectPrompt p   { font-size: 0.9rem; max-width: 360px; }
+.loading { flex-direction: row; gap: 10px; font-size: 0.95rem; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .row { grid-template-columns: 60px 110px 1fr 150px auto 24px; gap: 14px; }
+}
+@media (max-width: 768px) {
+  .row { grid-template-columns: 1fr; gap: 10px; }
+  .rowArrow { display: none; }
+  .headerRow { flex-direction: column; }
+}

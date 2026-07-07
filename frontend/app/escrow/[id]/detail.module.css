@@ -1,0 +1,135 @@
+.main { min-height: 100vh; padding: 60px 0 80px; position: relative; z-index: 1; }
+
+.back { font-size: 0.85rem; color: #8B9DC3; text-decoration: none; display: inline-block; margin-bottom: 28px; transition: color 0.2s; }
+.back:hover { color: #C9A84C; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Main card */
+.mainCard { padding: 36px; }
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.escrowId {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8B9DC3;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.escrowAmt {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #F0F2FA;
+  line-height: 1;
+}
+.amtUnit {
+  font-size: 1.2rem;
+  color: #8B9DC3;
+  font-weight: 600;
+}
+
+/* Details grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+}
+.detailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.detailLabel { font-size: 0.72rem; font-weight: 600; color: #4A5A80; text-transform: uppercase; letter-spacing: 0.08em; }
+.detailValue { font-size: 0.9rem; color: #F0F2FA; }
+
+/* Actions */
+.actions { display: flex; flex-direction: column; gap: 16px; }
+.actionsTitle { font-size: 0.85rem; font-weight: 700; color: #8B9DC3; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+.actionIcon { font-size: 1.8rem; flex-shrink: 0; }
+.actionBody { flex: 1; }
+.actionName { font-size: 0.95rem; font-weight: 700; color: #F0F2FA; margin-bottom: 4px; }
+.actionDesc { font-size: 0.82rem; color: #8B9DC3; line-height: 1.5; }
+.actionBtns { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+
+.connectWrap { display: flex; justify-content: center; padding: 20px 0; }
+
+/* Sidebar */
+.sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+.sideCard { padding: 22px; }
+.sideTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #F0F2FA;
+  margin-bottom: 14px;
+}
+
+.sideLinks { display: flex; flex-direction: column; gap: 10px; }
+.sideLink {
+  font-size: 0.82rem;
+  color: #4F8EF7;
+  text-decoration: none;
+  padding: 8px 12px;
+  background: rgba(79,142,247,0.08);
+  border: 1px solid rgba(79,142,247,0.2);
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: block;
+}
+.sideLink:hover { background: rgba(79,142,247,0.15); }
+
+.sideHint { font-size: 0.75rem; color: #4A5A80; margin-top: 8px; }
+
+/* Flow tracker */
+.flow { display: flex; flex-direction: column; gap: 14px; }
+.flowStep { display: flex; align-items: center; gap: 12px; }
+.flowDot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.flowDone { background: #10B981; box-shadow: 0 0 8px rgba(16,185,129,0.5); }
+.flowTodo { background: rgba(255,255,255,0.15); }
+.flowLabelDone { font-size: 0.85rem; color: #10B981; font-weight: 600; }
+.flowLabelTodo { font-size: 0.85rem; color: #4A5A80; }
+
+/* Loading/not found */
+.loading, .notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 24px;
+  text-align: center;
+  color: #8B9DC3;
+}
+.loading { flex-direction: row; font-size: 0.95rem; }
+.notFound h1 { font-size: 1.4rem; color: #F0F2FA; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout       { grid-template-columns: 1fr; }
+  .detailsGrid  { grid-template-columns: 1fr; }
+  .actionCard   { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 600px) {
+  .mainCard     { padding: 24px; }
+  .cardHeader   { flex-direction: column; }
+}
