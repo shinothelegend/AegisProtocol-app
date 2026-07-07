@@ -23,8 +23,8 @@ export const polygonAmoy = defineChain({
 
 // ── Wagmi + RainbowKit config ──────────────────────────────────────────────
 const config = getDefaultConfig({
-  appName: "StableEscrow UAE",
-  projectId: "stableescrow-uae-hackathon-2026",
+  appName: "Aegis Protocol",
+  projectId: "aegis-protocol-hackathon-2026",
   chains: [polygonAmoy],
   transports: {
     [polygonAmoy.id]: http("https://polygon-amoy.drpc.org"),

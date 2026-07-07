@@ -7,12 +7,12 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: 
 const inter  = Inter ({ subsets: ["latin"], variable: "--font-inter",  display: "swap" });
 
 export const metadata = {
-  title: "StableEscrow UAE | On-Chain USDC Trade Finance",
+  title: "Aegis Protocol | On-Chain USDC Trade Finance",
   description:
-    "Trustless USDC escrow for UAE SME merchants. Create, fund, and release invoice payments on-chain via Polygon Amoy — powered by StableEscrow UAE.",
+    "Trustless USDC escrow for UAE SME merchants. Create, fund, and release invoice payments on-chain via Polygon Amoy — powered by Aegis Protocol.",
   keywords: ["UAE", "escrow", "USDC", "Polygon", "DeFi", "merchant", "trade finance", "stablecoin"],
   openGraph: {
-    title: "StableEscrow UAE",
+    title: "Aegis Protocol",
     description: "On-chain USDC escrow for UAE merchants",
     type: "website",
   },

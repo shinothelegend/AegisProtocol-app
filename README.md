@@ -1,4 +1,4 @@
-# StableEscrow UAE 🇦🇪
+# Aegis Protocol 🛡️
 
 > **On-chain USDC escrow for UAE SME trade finance — deployed on Polygon Amoy**
 
@@ -36,7 +36,7 @@ The UAE processes **$700B+ in annual trade volume**, yet UAE SMEs face a critica
 > *"UAE SMEs lose an estimated AED 20B+ annually to late payments."*
 > — UAE Ministry of Economy, 2024
 
-**StableEscrow UAE** solves this with a single smart contract: funds lock on invoice creation, release on delivery. Zero fees, zero paperwork, instant settlement.
+**Aegis Protocol** solves this with a single smart contract: funds lock on invoice creation, release on delivery. Zero fees, zero paperwork, instant settlement.
 
 ---
 
@@ -161,7 +161,7 @@ Built with **Next.js 16 + wagmi v2 + RainbowKit v2** — full on-chain interacti
 ## 🏗️ Project Structure
 
 ```
-StableEscrow UAE/
+Aegis Protocol/
 ├── contracts/
 │   ├── Escrow.sol              # Main escrow contract (deployed)
 │   └── MockERC20.sol           # Test helper (not deployed)
@@ -264,7 +264,7 @@ npm run deploy:amoy
 
 ### Smart Commerce Infrastructure
 
-| Judging Criteria | How StableEscrow UAE Delivers |
+| Judging Criteria | How Aegis Protocol Delivers |
 |---|---|
 | **Real Problem** | UAE SME payment delays — $700B+ trade market, AED 20B+ late payment losses |
 | **On-chain Proof** | Live deployed contract with verifiable Polygonscan history |

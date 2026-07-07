@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 // ─────────────────────────────────────────────────────────────────────────────
-// StableEscrow UAE – Escrow.sol Test Suite
+// Aegis Protocol – Escrow.sol Test Suite
 // Tests cover: create, fund, release, deadline release, access control
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 // scripts/deploy.js
 // ─────────────────────────────────────────────────────────────────────────────
-// StableEscrow UAE – Deployment Script
+// Aegis Protocol – Deployment Script
 // Deploys Escrow.sol to Polygon Amoy testnet (or local Hardhat network)
 //
 // Usage:
@@ -22,7 +22,7 @@ async function main() {
   const [deployer] = await ethers.getSigners();
 
   console.log("\n================================================");
-  console.log("  StableEscrow UAE – Deployment");
+  console.log("  Aegis Protocol – Deployment");
   console.log("================================================");
   console.log(`  Deployer address : ${deployer.address}`);
   console.log(`  USDC address     : ${AMOY_USDC_ADDRESS}`);
