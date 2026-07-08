@@ -347,3 +347,69 @@ input, select, textarea { outline: none; border: none; font-family: inherit; }
   .container { padding: 0 16px; }
   h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); }
 }
+
+/* ── Phase 2 Design System ──────────────────────────────────── */
+.glass-panel {
+  background-color: rgba(30, 14, 24, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+}
+
+.font-body-md {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.font-headline-lg {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.font-headline-xl {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.font-label-caps {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(229, 201, 215, 0.4);
+}
+
+/* Colors for inline styles or utility classes */
+.text-red-400 { color: #f87171; }
+.text-amber-300 { color: #fcd34d; }
+.text-emerald-400 { color: #34d399; }
+.text-amber-400 { color: #fbbf24; }
+.bg-amber-700-10 { background-color: rgba(180, 83, 9, 0.1); }
+.border-amber-600-40 { border-color: rgba(217, 119, 6, 0.4); }
+
+.bg-brand-light-10 { background-color: rgba(229, 201, 215, 0.1); }
+.text-brand-light { color: #E5C9D7; }
+.border-brand-light-40 { border-color: rgba(229, 201, 215, 0.4); }
+
+.bg-brand-blue-10 { background-color: rgba(131, 166, 206, 0.1); }
+.text-brand-blue { color: #83A6CE; }
+.border-brand-blue-40 { border-color: rgba(131, 166, 206, 0.4); }
+
+.shadow-gold-badge { box-shadow: 0 0 15px rgba(229, 201, 215, 0.3); }
+
+.text-on-surface-variant { color: #C48CB3; }
+.text-outline { color: #83A6CE; }
+.border-outline-variant { border-color: rgba(131, 166, 206, 0.4); }
+
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.rounded-full { border-radius: 9999px; }
+.uppercase { text-transform: uppercase; }
+.border { border-width: 1px; border-style: solid; }

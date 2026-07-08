@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
 import { parseUnits, isAddress } from "viem";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
@@ -153,6 +153,11 @@ export default function CreateEscrowPage() {
                     />
                     {errors.payee && <span className="form-error">{errors.payee}</span>}
                     <span className="form-hint">The buyer's wallet address — they will fund this escrow</span>
+                    
+                    {/* Live Merchant Reputation Preview */}
+                    {isAddress(form.payee) && (
+                      <MerchantReputationPreview address={form.payee} />
+                    )}
                   </div>
 
                   {/* Amount */}
@@ -297,5 +302,63 @@ export default function CreateEscrowPage() {
         </div>
       </main>
     </>
+}
+
+// ── Merchant Reputation Preview ───────────────────────────────
+function MerchantReputationPreview({ address }) {
+  const { data: stats } = useReadContract({
+    address: ESCROW_ADDRESS,
+    abi: ESCROW_ABI,
+    functionName: "getMerchantStats",
+    args: [address],
+    enabled: isAddress(address),
+  });
+
+  if (!stats) return <div style={{marginTop: '8px', fontSize: '0.85rem', color: 'var(--text-muted)'}}>Loading reputation...</div>;
+
+  const [successful, total, score] = stats;
+  const numTotal = Number(total);
+  const numScore = Number(score);
+
+  if (numTotal === 0) {
+    return (
+      <div className="font-label-caps text-outline border border-outline-variant px-3 py-1 rounded-full uppercase inline-block" style={{marginTop: '12px', display: 'inline-block', width: 'fit-content'}}>
+        New Merchant • Unrated (Score: 0)
+      </div>
+    );
+  }
+
+  let badgeClass = "";
+  let badgeText = "";
+  if (numScore >= 70) {
+    badgeClass = "bg-brand-light-10 text-brand-light border-brand-light-40 shadow-gold-badge";
+    badgeText = "Gold Badge";
+  } else if (numScore >= 40) {
+    badgeClass = "bg-brand-blue-10 text-brand-blue border-brand-blue-40";
+    badgeText = "Silver Badge";
+  } else {
+    badgeClass = "bg-amber-700-10 text-amber-400 border-amber-600-40";
+    badgeText = "Bronze Badge";
+  }
+
+  let scoreColor = "text-red-400";
+  if (numScore >= 70) scoreColor = "text-emerald-400";
+  else if (numScore >= 40) scoreColor = "text-amber-300";
+
+  return (
+    <div className="glass-panel" style={{marginTop: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <div>
+        <div className="font-label-caps text-on-surface-variant" style={{marginBottom: '4px'}}>Live Trust Score</div>
+        <div className={`font-headline-xl text-glow ${scoreColor}`} style={{lineHeight: 1}}>{numScore}</div>
+      </div>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px'}}>
+        <span className={`font-label-caps px-3 py-1 rounded-full uppercase border ${badgeClass}`}>
+          {badgeText}
+        </span>
+        <div className="text-on-surface-variant font-body-md" style={{fontSize: '0.85rem', border: '1px solid rgba(255,255,255,0.1)', padding: '4px 8px', borderRadius: '4px'}}>
+          Successful Releases: {Number(successful)} <br/> Total Escrows Received: {numTotal}
+        </div>
+      </div>
+    </div>
   );
 }

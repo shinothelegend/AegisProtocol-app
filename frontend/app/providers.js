@@ -3,6 +3,7 @@
 import { getDefaultConfig, RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { WagmiProvider, http } from "wagmi";
 import { defineChain } from "viem";
+import { hardhat } from "viem/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -25,8 +26,9 @@ export const polygonAmoy = defineChain({
 const config = getDefaultConfig({
   appName: "Aegis Protocol",
   projectId: "aegis-protocol-hackathon-2026",
-  chains: [polygonAmoy],
+  chains: [hardhat, polygonAmoy],
   transports: {
+    [hardhat.id]: http("http://127.0.0.1:8545"),
     [polygonAmoy.id]: http("https://polygon-amoy.drpc.org"),
   },
   ssr: true,

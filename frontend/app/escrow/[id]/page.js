@@ -279,6 +279,9 @@ export default function EscrowDetailPage({ params }) {
 
             {/* ── Sidebar ──────────────────────────────── */}
             <div className={styles.sidebar}>
+              
+              <MerchantReputationCard address={payee} />
+
               <div className={`${styles.sideCard} glass-card`}>
                 <h3 className={styles.sideTitle}>🔗 On-chain Links</h3>
                 <div className={styles.sideLinks}>
@@ -337,6 +340,78 @@ function DetailRow({ label, value, isAddr }) {
       <span className={`${styles.detailValue} ${isAddr ? "font-mono" : ""}`}>
         {isAddr && value ? `${value.slice(0,10)}…${value.slice(-6)}` : value}
       </span>
+}
+
+// ── Merchant Reputation Card ──────────────────────────────────
+function MerchantReputationCard({ address }) {
+  const { data: stats } = useReadContract({
+    address: ESCROW_ADDRESS,
+    abi: ESCROW_ABI,
+    functionName: "getMerchantStats",
+    args: [address],
+    enabled: !!address,
+  });
+
+  if (!stats) return <div className="glass-panel" style={{padding: '16px', fontSize: '0.85rem', color: 'var(--text-muted)'}}><span className="spinner" style={{width:'14px',height:'14px',marginRight:'6px'}}/>Loading merchant reputation...</div>;
+
+  const [successful, total, score] = stats;
+  const numTotal = Number(total);
+  const numScore = Number(score);
+
+  if (numTotal === 0) {
+    return (
+      <div className="glass-panel" style={{padding: '16px'}}>
+        <h3 style={{fontSize: '1rem', marginBottom: '12px', color: 'var(--text-primary)'}}>Merchant Reputation</h3>
+        <div className="font-label-caps text-outline border border-outline-variant px-3 py-1 rounded-full uppercase inline-block">
+          New Merchant • Unrated (Score: 0)
+        </div>
+      </div>
+    );
+  }
+
+  let badgeClass = "";
+  let badgeText = "";
+  if (numScore >= 70) {
+    badgeClass = "bg-brand-light-10 text-brand-light border-brand-light-40 shadow-gold-badge";
+    badgeText = "Gold Badge";
+  } else if (numScore >= 40) {
+    badgeClass = "bg-brand-blue-10 text-brand-blue border-brand-blue-40";
+    badgeText = "Silver Badge";
+  } else {
+    badgeClass = "bg-amber-700-10 text-amber-400 border-amber-600-40";
+    badgeText = "Bronze Badge";
+  }
+
+  let scoreColor = "text-red-400";
+  if (numScore >= 70) scoreColor = "text-emerald-400";
+  else if (numScore >= 40) scoreColor = "text-amber-300";
+
+  return (
+    <div className="glass-panel" style={{padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px'}}>
+      <h3 style={{fontSize: '1.1rem', margin: 0, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '12px'}}>Merchant Reputation</h3>
+      
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div>
+          <div className="font-label-caps text-on-surface-variant" style={{marginBottom: '4px'}}>Trust Score</div>
+          <div className={`font-headline-xl text-glow ${scoreColor}`} style={{lineHeight: 1}}>{numScore}</div>
+        </div>
+        <div style={{textAlign: 'right'}}>
+          <span className={`font-label-caps px-3 py-1 rounded-full uppercase border ${badgeClass}`}>
+            {badgeText}
+          </span>
+        </div>
+      </div>
+      
+      <div className="text-on-surface-variant font-body-md" style={{fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <span>Successful Releases:</span>
+          <span style={{color: 'var(--text-primary)', fontWeight: 600}}>{Number(successful)}</span>
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <span>Total Escrows Received:</span>
+          <span style={{color: 'var(--text-primary)', fontWeight: 600}}>{numTotal}</span>
+        </div>
+      </div>
     </div>
   );
 }
