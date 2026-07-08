@@ -302,6 +302,7 @@ export default function CreateEscrowPage() {
         </div>
       </main>
     </>
+  );
 }
 
 // ── Merchant Reputation Preview ───────────────────────────────

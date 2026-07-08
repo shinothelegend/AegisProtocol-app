@@ -340,6 +340,8 @@ function DetailRow({ label, value, isAddr }) {
       <span className={`${styles.detailValue} ${isAddr ? "font-mono" : ""}`}>
         {isAddr && value ? `${value.slice(0,10)}…${value.slice(-6)}` : value}
       </span>
+    </div>
+  );
 }
 
 // ── Merchant Reputation Card ──────────────────────────────────
