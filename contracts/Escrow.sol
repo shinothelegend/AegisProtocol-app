@@ -19,6 +19,9 @@ contract Escrow is Ownable {
     mapping(uint256 => EscrowData) public escrows;
     uint256 public nextEscrowId;
 
+    mapping(address => uint256) public successfulReleases;
+    mapping(address => uint256) public totalEscrowsReceived;
+
     event EscrowCreated(uint256 indexed id, address payer, address payee, uint256 amount);
     event Funded(uint256 indexed id, uint256 amount);
     event Released(uint256 indexed id, address to, uint256 amount);
@@ -37,6 +40,7 @@ contract Escrow is Ownable {
             released: false,
             deadline: _deadline
         });
+        totalEscrowsReceived[_payee]++;
         emit EscrowCreated(id, msg.sender, _payee, _amount);
         return id;
     }
@@ -54,7 +58,19 @@ contract Escrow is Ownable {
         require(e.funded && !e.released, "Not ready");
         require(msg.sender == e.payer || msg.sender == owner() || block.timestamp > e.deadline, "Not authorized");
         e.released = true;
+        successfulReleases[e.payee]++;
         require(usdcToken.transfer(e.payee, e.amount), "Release failed");
         emit Released(_id, e.payee, e.amount);
+    }
+
+    function getTrustScore(address _merchant) public view returns (uint256) {
+        uint256 baseScore = successfulReleases[_merchant] * 8;
+        uint256 bonus = totalEscrowsReceived[_merchant] >= 5 ? 20 : 0;
+        uint256 totalScore = baseScore + bonus;
+        return totalScore > 100 ? 100 : totalScore;
+    }
+
+    function getMerchantStats(address _merchant) external view returns (uint256 successfulReleases, uint256 totalEscrowsReceived, uint256 trustScore) {
+        return (this.successfulReleases(_merchant), this.totalEscrowsReceived(_merchant), getTrustScore(_merchant));
     }
 }
