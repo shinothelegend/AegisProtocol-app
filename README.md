@@ -7,6 +7,7 @@
 [![Tests](https://img.shields.io/badge/Tests-17%2F17%20Passing-22c55e?style=for-the-badge)](./test/Escrow.test.js)
 [![Built For](https://img.shields.io/badge/Ignyte-Smart%20Commerce-gold?style=for-the-badge)](https://ignyte.io)
 
+Aegis Protocol is building the trust layer for UAE’s $700B+ trade economy. We give SMEs instant, zero-fee, trustless USDC settlements with built-in buyer protection — so merchants get paid on time and buyers never lose money to non-delivery. No banks. No paperwork. No intermediaries. Just transparent on-chain commerce that scales with the UAE’s ambitions.
 ---
 
 ## 🔗 Deployed Contract (On-Chain Proof)
