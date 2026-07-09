@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { parseUnits, isAddress } from "viem";
+import { parseUnits, isAddress, decodeEventLog } from "viem";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -33,9 +33,39 @@ export default function CreateEscrowPage() {
   });
   const [errors, setErrors] = useState({});
   const [createdId, setCreatedId] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
-  const { writeContract, data: txHash, isPending, reset } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+  // eslint-disable-next-line react-hooks/rules-of-hooks, react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  const { writeContract, data: txHash, isPending, reset, error: writeError } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess, data: receipt, error: confirmError } = useWaitForTransactionReceipt({ hash: txHash });
+
+  // Extract Escrow ID from logs when successful
+  useEffect(() => {
+    if (isSuccess && receipt && !createdId) {
+      try {
+        for (const log of receipt.logs) {
+          try {
+            const decoded = decodeEventLog({
+              abi: ESCROW_ABI,
+              data: log.data,
+              topics: log.topics,
+            });
+            if (decoded.eventName === 'EscrowCreated') {
+              // eslint-disable-next-line react-hooks/set-state-in-effect
+              setCreatedId(decoded.args.id.toString());
+              break;
+            }
+          } catch (e) {
+            // Not the target event
+          }
+        }
+      } catch (err) {
+        console.error("Error parsing logs", err);
+      }
+    }
+  }, [isSuccess, receipt, createdId]);
 
   // ── Validation ──────────────────────────────────────────────
   function validate() {
@@ -78,30 +108,86 @@ export default function CreateEscrowPage() {
 
   // ── Success state ────────────────────────────────────────────
   if (isSuccess) {
+    const mailSubject = encodeURIComponent(`Escrow Invoice from ${address}`);
+    const mailBody = encodeURIComponent(`Hello,\n\nAn escrow invoice has been created for you.\nEscrow ID: ${createdId}\nAmount: ${form.amount} USDC\nDeadline: ${new Date(form.deadline).toLocaleString()}\n\nPlease connect your wallet, approve the USDC spend, and fund this escrow using the Escrow ID above.\n\nTransaction Hash: ${txHash}`);
+
     return (
       <>
         <Navbar />
         <main className={styles.main}>
           <div className="container">
-            <div className={styles.successBox}>
+            <div className={styles.successBox} style={{ maxWidth: '600px' }}>
               <div className={styles.successIcon}>✅</div>
               <h1 className={styles.successTitle}>Escrow Created!</h1>
               <p className={styles.successSub}>
-                Your escrow has been recorded on-chain. Share the link below with
+                Your escrow has been recorded on-chain. Share the details below with
                 your buyer so they can fund it.
               </p>
-              {txHash && (
-                <a
-                  href={`${POLYGONSCAN}/tx/${txHash}`}
-                  target="_blank" rel="noreferrer"
-                  className={styles.txLink}
+              
+              <div className="glass-panel" style={{ textAlign: 'left', padding: '24px', margin: '24px 0', width: '100%' }}>
+                <div style={{ marginBottom: '16px' }}>
+                  <label className="form-label">Escrow ID</label>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input type="text" readOnly value={createdId || "Extracting from blockchain..."} className="form-input font-mono text-gold" style={{ fontSize: '1.2rem', fontWeight: 'bold' }} />
+                    <button 
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        if (createdId) {
+                          navigator.clipboard.writeText(createdId);
+                          alert("Escrow ID copied!");
+                        }
+                      }}
+                      disabled={!createdId}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                  <div>
+                    <label className="form-label text-on-surface-variant">Buyer Address</label>
+                    <div className="font-mono" style={{ fontSize: '0.9rem' }}>{form.payee.slice(0,6)}…{form.payee.slice(-4)}</div>
+                  </div>
+                  <div>
+                    <label className="form-label text-on-surface-variant">Amount</label>
+                    <div style={{ fontSize: '0.9rem' }}><strong>{form.amount} USDC</strong></div>
+                  </div>
+                  <div style={{ gridColumn: 'span 2' }}>
+                    <label className="form-label text-on-surface-variant">Deadline</label>
+                    <div style={{ fontSize: '0.9rem' }}>{new Date(form.deadline).toLocaleString()}</div>
+                  </div>
+                </div>
+
+                {txHash && (
+                  <a
+                    href={`${POLYGONSCAN}/tx/${txHash}`}
+                    target="_blank" rel="noreferrer"
+                    className={styles.txLink}
+                    style={{ display: 'inline-block', marginTop: '8px', width: '100%', textAlign: 'center' }}
+                  >
+                    View Transaction on Polygonscan ↗
+                  </a>
+                )}
+              </div>
+
+              <div className={styles.successActions} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+                <a 
+                  href={`mailto:?subject=${mailSubject}&body=${mailBody}`}
+                  className="btn btn-primary btn-full btn-lg"
+                  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}
                 >
-                  View Transaction on Polygonscan ↗
+                  ✉️ Share Invoice via Email
                 </a>
-              )}
-              <div className={styles.successActions}>
-                <Link href="/escrows" className="btn btn-primary">View My Escrows</Link>
-                <button onClick={handleReset} className="btn btn-secondary">Create Another</button>
+                
+                <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+                  <Link href="/escrows" className="btn btn-secondary" style={{ flex: 1, textAlign: 'center' }}>
+                    View My Escrows
+                  </Link>
+                  <button onClick={handleReset} className="btn btn-secondary" style={{ flex: 1 }}>
+                    Create Another
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -127,7 +213,11 @@ export default function CreateEscrowPage() {
           <div className={styles.layout}>
             {/* ── Form ────────────────────────────────────── */}
             <div className={`${styles.formCard} glass-card`}>
-              {!isConnected ? (
+              {!mounted ? (
+                <div className={styles.connectPrompt} style={{ minHeight: '300px', justifyContent: 'center' }}>
+                  <span className="spinner" style={{ width: '40px', height: '40px', borderWidth: '4px' }}></span>
+                </div>
+              ) : !isConnected ? (
                 <div className={styles.connectPrompt}>
                   <div className={styles.connectIcon}>🔗</div>
                   <h2>Connect Your Wallet</h2>
@@ -152,7 +242,7 @@ export default function CreateEscrowPage() {
                       onChange={e => setForm(f => ({ ...f, payee: e.target.value.trim() }))}
                     />
                     {errors.payee && <span className="form-error">{errors.payee}</span>}
-                    <span className="form-hint">The buyer's wallet address — they will fund this escrow</span>
+                    <span className="form-hint">The buyer&apos;s wallet address — they will fund this escrow</span>
                     
                     {/* Live Merchant Reputation Preview */}
                     {isAddress(form.payee) && (
@@ -238,6 +328,16 @@ export default function CreateEscrowPage() {
                   {isConfirming && (
                     <div className="alert alert-warning">
                       <span className="spinner" /> Waiting for blockchain confirmation…
+                    </div>
+                  )}
+                  {writeError && (
+                    <div className="alert alert-error" style={{ color: 'red', marginBottom: '10px' }}>
+                      Error: {writeError.shortMessage || writeError.message}
+                    </div>
+                  )}
+                  {confirmError && (
+                    <div className="alert alert-error" style={{ color: 'red', marginBottom: '10px' }}>
+                      Confirmation Error: {confirmError.shortMessage || confirmError.message}
                     </div>
                   )}
 

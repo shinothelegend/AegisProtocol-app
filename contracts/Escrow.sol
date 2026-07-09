@@ -70,7 +70,7 @@ contract Escrow is Ownable {
         return totalScore > 100 ? 100 : totalScore;
     }
 
-    function getMerchantStats(address _merchant) external view returns (uint256 successfulReleases, uint256 totalEscrowsReceived, uint256 trustScore) {
-        return (this.successfulReleases(_merchant), this.totalEscrowsReceived(_merchant), getTrustScore(_merchant));
+    function getMerchantStats(address _merchant) external view returns (uint256 _successfulReleases, uint256 _totalEscrowsReceived, uint256 _trustScore) {
+        return (successfulReleases[_merchant], totalEscrowsReceived[_merchant], getTrustScore(_merchant));
     }
 }
